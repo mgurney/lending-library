@@ -1,0 +1,49 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+<h2>Add DVDs</h2>
+
+
+<div class="row">
+    <div class="column left">
+        {{ table }}
+    </div>
+    <div class="column right box_medium">
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <h4>Add Your DVDs for Lending</h4>
+            <table align="center">
+                <tr>
+                    <td> {{ form.title.label }} </td>
+                    <td> {{ form.title }} </td>
+                </tr>
+                <tr>
+                    <td> {{ form.rating.label }} </td>
+                    <td> {{ form.rating }} </td>
+                </tr>
+                <tr>
+                    <td> {{ form.format_dvd.label }} </td>
+                    <td> {{ form.format_dvd }} </td>
+                </tr>
+                <tr>
+                    <td> {{ form.format_bluray.label }} </td>
+                    <td> {{ form.format_bluray }} </td>
+                </tr>
+                <tr>
+                    <td> {{ form.format_4k.label }} </td>
+                    <td> {{ form.format_4k }} </td>
+                </tr>
+                <tr><td><br>{{ form.submit }} </td></tr>
+            </table>
+        </form>
+        <br>
+        <br>
+        <form action="/add_mag" method="post">
+            <button name="add_mag" type="submit">Add Magazine</button>
+        </form><br>
+        <form action="/logout" method="get">
+            <button name="logout" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

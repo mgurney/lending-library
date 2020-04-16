@@ -1,0 +1,27 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="column left">
+        <h2>DVDs</h2>
+        {{ dvd_table }}
+        <br><br>
+        <h2>Magazines</h2>
+        {{ mag_table }}
+    </div>
+    <div class="column right box_medium">
+        <br><br>
+        <form action="/add_dvd" method="post">
+            <button name="add_dvd" type="submit">Add DVD</button>
+        </form><br>
+        <br>
+        <form action="/add_mag" method="post">
+            <button name="add_mag" type="submit">Add Magazine</button>
+        </form><br>
+        <form action="/logout" method="get">
+            <button name="logout" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="column left">
+        <h1> Welcome to the Ben Rhydding Lending Library</h1>
+        <h3> Lend and Borrow DVDs and Magazines</h3>
+
+        <p> Please register / login on the right handside to begin lending / borrowing DVDs and Magazines <br>
+            Please note the rules I have put in place to avoid any confusion.  By signing up you agree to these conditions </p>
+
+
+    </div>
+    <div class="column right box_medium">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
+
+            <h1>Log In</h1>
+
+            <fieldset class="email">
+                {{ form.email.label }}
+                {{ form.email(placeholder='youremail@example.com') }}
+                {% if form.email.errors %}
+                <ul class="errors">
+                    {% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="password">
+                {{ form.password.label }}
+                {{ form.password }}
+                {% if form.email.errors %}
+                <ul class="errors">
+                    {% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+                {% endif %}
+            </fieldset>
+            <br>
+            <div class="submitbutton">
+                <input id="submit" type="submit" value="Submit">
+            </div>
+
+        </form>
+        <br>
+        <p>Need to Register?</p>
+        <form action="/signup" method="get">
+            <button name="Register" type="submit">Register</button>
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

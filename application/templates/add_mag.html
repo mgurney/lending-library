@@ -1,0 +1,33 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+<h2>Add Magazines</h2>
+
+
+<div class="row">
+    <div class="column left">
+        {{ table }}
+    </div>
+    <div class="column right box_medium">
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <h4>Add Your Magazines for Lending</h4>
+            <table align="center">
+                <tr>
+                    <td> {{ form.title.label }} </td>
+                    <td> {{ form.title }} </td>
+                </tr>
+                <tr><td><br>{{ form.submit }} </td></tr>
+            </table>
+        </form>
+        <br><br>
+        <form action="/add_dvd" method="post">
+            <button name="add_dvd" type="submit">Add DVD</button>
+        </form>
+        <br>
+        <form action="/logout" method="get">
+            <button name="logout" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

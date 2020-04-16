@@ -1,0 +1,26 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="column left">
+        <h1> Welcome to the Ben Rhydding Lending Library</h1>
+        <h3> Lend and Borrow DVDs and Magazines</h3>
+        <br><br>
+
+        <p> Please register / login on the right handside to begin lending / borrowing DVDs and Magazines <br>
+            Please note the rules I have put in place to avoid any confusion.  By signing up you agree to these conditions </p>
+
+    </div>
+    <div class="column right box_medium">
+        Please Register / Login using the buttons below<br><br>
+        <form action="/signup" method="get">
+            <button name="Register" type="submit">Register</button>
+        </form> <br><br>
+        <form action="/login" method="get">
+            <button name="Login" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

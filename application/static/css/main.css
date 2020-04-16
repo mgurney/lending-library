@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+}
+
+.header {
+  background-color: #8c292a;
+}
+
+
+/* Create two unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+    column-gap: 20px;
+    column-rule: 2px solid red;
+}
+
+.left-3-col {
+    width: 25%;
+    background-color: #cce6ff;
+}
+.mid-3-col {
+    width: 50%;
+    text-align: center;
+}
+
+.right-3-col {
+    width: 25%;
+    background-color: #0080ff;
+}
+
+.left {
+    width: 65%;
+    background-color: #cce6ff;
+}
+
+.right {
+    width: 35%;
+    background-color: #0080ff;
+}
+
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.box_very_large {
+    width: 850px;
+    height: 450px;
+    padding: 40px;
+    left: 15px;
+}
+
+.box_large {
+    width: 300px;
+    height: 450px;
+    padding: 15px;
+}
+
+.box {
+    width: 300px;
+    height: 200px;
+    padding: 15px;
+}
+
+.box_medium {
+    width: 400px;
+    height: 400px;
+    padding: 15px;
+}
+
+body {
+  margin: 10;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
