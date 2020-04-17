@@ -21,11 +21,11 @@ def create_app():
     babel = Babel(app)
 
     with app.app_context():
-        from . import routes
-        from . import auth
-        from . import models
+        from application import routes
+        from application import auth
+        from application import models
 
-        # Create tables for our models
+    # Create tables for our models
         db.create_all()
 
         return app

@@ -6,9 +6,9 @@ from flask import request, flash, url_for
 from flask_login import current_user
 from flask_login import login_user
 
-from . import login_manager
-from .forms import LoginForm, SignupForm
-from .models import db, User
+from application import login_manager
+from application.forms import LoginForm, SignupForm
+from application.models import db, User
 
 
 @app.route('/signup', methods=['GET', 'POST'])

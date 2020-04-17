@@ -6,9 +6,9 @@ from flask import url_for, render_template, redirect, request
 from flask_login import current_user
 from flask_login import login_required, logout_user
 
-from .forms import AddDvdForm, AddMagForm
-from .models import DVD, Magazine, db
-from .tables import DVD_table, Mag_table
+from application.forms import AddDvdForm, AddMagForm
+from application.models import DVD, Magazine, db
+from application.tables import DVD_table, Mag_table
 
 
 @app.route('/', methods=['GET', 'POST'])
