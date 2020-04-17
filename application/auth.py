@@ -21,10 +21,12 @@ def signup():
             password = signup_form.password.data
             now_date = datetime.now()
             rules = signup_form.read_rules.data
-            print(rules)
             existing_user = User.query.filter_by(email=email).first()  # Check if user exists
             if existing_user is None:
-                user = User(name,email,rules,now_date)
+                user = User(name=name,
+                            email=email,
+                            rules_read=rules,
+                            created_on=now_date)
                 user.set_password(password)
                 db.session.add(user)
                 db.session.commit()  # Create new user
