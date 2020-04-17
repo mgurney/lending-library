@@ -26,7 +26,7 @@ class AddDvdForm(FlaskForm):
     format_dvd = BooleanField('DVD?', validators=[Optional()])
     format_bluray = BooleanField('Blu-Ray?', validators=[Optional()])
     format_4k = BooleanField('4K?', validators=[Optional()])
-    rating = SelectField('Rating', choices=[('U', 'U'),('PG','PG'), ('PG-12', 'PG-12'), ('15', '15'),('18', '18')])
+    rating = SelectField('Rating', choices=[('U', 'U'), ('PG','PG'), ('12', '12'), ('12A', '12A'), ('15', '15'), ('18', '18')])
     submit = SubmitField('Submit')
 
 class AddMagForm(FlaskForm):
