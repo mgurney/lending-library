@@ -192,10 +192,16 @@ def borrowed_list():
     mag_table.border = True
     return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table)
 
-@app.route('/rules', methods=['GET', 'POST'])
+@app.route('/rules', methods=['GET'])
 def rules():
 
     return render_template('rules.html')
+
+@app.route('/changes', methods=['GET'])
+def changes():
+
+    return render_template('changes.html')
+
 
 
 @app.route("/logout")
