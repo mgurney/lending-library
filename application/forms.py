@@ -33,3 +33,10 @@ class AddMagForm(FlaskForm):
     """ Form to add Magazine to the database ready for lending"""
     title = StringField('Title', validators=[DataRequired(), Length(max=50, message='Only 50 characters allowed')])
     submit = SubmitField('Submit')
+
+class DVDSearchForm(FlaskForm):
+    choices = [('Title', 'Title'),
+               ('Owner', 'Owner')]
+    select = SelectField('Search for DVDs:', choices=choices)
+    search = StringField('')
+    submit = SubmitField('Search')

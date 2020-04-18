@@ -2,11 +2,11 @@
 from datetime import datetime
 
 from flask import current_app as app
-from flask import url_for, render_template, redirect, request
+from flask import url_for, render_template, redirect, request, flash
 from flask_login import current_user
 from flask_login import login_required, logout_user
 
-from application.forms import AddDvdForm, AddMagForm
+from application.forms import AddDvdForm, AddMagForm, DVDSearchForm
 from application.models import DVD, Magazine, db
 from application.tables import DVD_table, Mag_table
 
@@ -21,23 +21,37 @@ def index():
 @login_required
 def library():
 
+    search = DVDSearchForm()
+    if request.method == 'POST':
+        if search.data['search'] != '':
+            if search.data['select'] == 'Owner':
+                dvd_items = DVD.query.filter_by(owner_name=search.data['search']).all()
+            if search.data['select'] == 'Title':
+                dvd_items = DVD.query.filter_by(title=search.data['search']).all()
+
+            return dvd_library(dvd_items)
+
     dvd_items = DVD.query.all()
     dvd_table = DVD_table(dvd_items)
     dvd_table.border = True
     mag_items = Magazine.query.all()
     mag_table = Mag_table(mag_items)
     mag_table.border = True
-    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table)
+
+    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table, search=search)
 
 
-@app.route('/dvd_library', methods=['GET', 'POST'])
-@login_required
-def dvd_library():
+def dvd_library(dvd_items):
 
-    dvd_items = DVD.query.all()
-    dvd_table = DVD_table(dvd_items)
-    dvd_table.border = True
-    return render_template('DVD_list.html', table=dvd_table)
+    search = DVDSearchForm()
+    if not dvd_items:
+        dvd_table = DVD_table(dvd_items)
+    else:
+        dvd_table = DVD_table(dvd_items)
+        dvd_table.border = True
+
+    return render_template('DVD_list.html', table=dvd_table, search=search)
+
 
 @app.route('/mag_library', methods=['GET', 'POST'])
 @login_required

@@ -1,0 +1,23 @@
+{% block column %}
+<br><br>
+<form action="" method="post">
+    <h4> Search </h4>
+    {{ search.select }}
+    {{ search.search }}
+    {{ search.submit }}
+</form><br><br>
+<form action="/add_dvd" method="post">
+    <button name="add_dvd" type="submit">Add DVD</button>
+</form>
+<form action="/add_mag" method="post">
+    <button name="add_mag" type="submit">Add Magazine</button>
+</form><br><br>
+<br><br>
+<form action="/library" method="post">
+    <button name="library" type="submit">View Full Library</button>
+</form>
+<form action="/logout" method="get">
+    <button name="logout" type="submit">Logout</button>
+</form>
+
+{% endblock %}

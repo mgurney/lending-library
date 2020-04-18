@@ -11,17 +11,9 @@
         {{ mag_table }}
     </div>
     <div class="column right box_medium">
-        <br><br>
-        <form action="/add_dvd" method="post">
-            <button name="add_dvd" type="submit">Add DVD</button>
-        </form><br>
-        <br>
-        <form action="/add_mag" method="post">
-            <button name="add_mag" type="submit">Add Magazine</button>
-        </form><br>
-        <form action="/logout" method="get">
-            <button name="logout" type="submit">Logout</button>
-        </form>
+        {% include "right_column.html" %}
+        {% block column %}
+        {% endblock %}
     </div>
 </div>
 {% endblock %}
