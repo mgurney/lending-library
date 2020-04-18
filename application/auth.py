@@ -30,6 +30,7 @@ def signup():
                 user.set_password(password)
                 db.session.add(user)
                 db.session.commit()  # Create new user
+                db.session.close()
                 login_user(user)  # Log in as newly created user
                 return redirect(url_for('index'))
             flash('A user already exists with that email address.')
@@ -65,6 +66,7 @@ def login():
                 login_user(user)
                 user.last_login = datetime.now()
                 db.session.commit()
+                db.session.close()
                 next_page = request.args.get('next')
                 return redirect(next_page or url_for('index'))
 
