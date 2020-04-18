@@ -25,9 +25,9 @@ def library():
     if request.method == 'POST':
         if search.data['search'] != '':
             if search.data['select'] == 'Owner':
-                dvd_items = DVD.query.filter_by(owner_name=search.data['search']).all()
+                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
             if search.data['select'] == 'Title':
-                dvd_items = DVD.query.filter_by(title=search.data['search']).all()
+                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
 
             return dvd_library(dvd_items)
 
