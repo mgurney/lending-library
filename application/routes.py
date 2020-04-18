@@ -172,17 +172,39 @@ def return_mag(id):
 @login_required
 def lent_list():
 
+    search = DVDSearchForm()
+    if request.method == 'POST':
+        if search.data['search'] != '':
+            if search.data['select'] == 'Owner':
+                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
+            if search.data['select'] == 'Title':
+                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
+
+        return dvd_library(dvd_items)
+
+
     dvd_items = DVD.query.filter(DVD.owner_id == current_user.id, DVD.borrower_id != None).all()
     dvd_table = DVD_table(dvd_items)
     dvd_table.border = True
     mag_items = Magazine.query.filter(Magazine.owner_id == current_user.id, Magazine.borrower_id != None).all()
     mag_table = Mag_table(mag_items)
     mag_table.border = True
-    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table)
+    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table, search=search)
+
 
 @app.route('/borrowed_list', methods=['GET', 'POST'])
 @login_required
 def borrowed_list():
+
+    search = DVDSearchForm()
+    if request.method == 'POST':
+        if search.data['search'] != '':
+            if search.data['select'] == 'Owner':
+                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
+            if search.data['select'] == 'Title':
+                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
+
+        return dvd_library(dvd_items)
 
     dvd_items = DVD.query.filter(DVD.borrower_id == current_user.id).all()
     dvd_table = DVD_table(dvd_items)
@@ -190,7 +212,7 @@ def borrowed_list():
     mag_items = Magazine.query.filter(Magazine.borrower_id == current_user.id).all()
     mag_table = Mag_table(mag_items)
     mag_table.border = True
-    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table)
+    return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table, search=search)
 
 @app.route('/rules', methods=['GET'])
 def rules():
