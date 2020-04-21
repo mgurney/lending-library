@@ -1,10 +1,16 @@
 {% block column %}
 <br><br>
 <form action="" method="post">
-    <h4> Search </h4>
-    {{ search.select }}
-    {{ search.search }}
+    <h4> Search Films </h4>
+    {{ search.dvd_select }}
+    {{ search.dvd_search }}
+    <br><br>
+    <h4> Search Magazines </h4>
+    {{ search.mag_select }}
+    {{ search.mag_search }}
+    <br><br>
     {{ search.submit }}
+
 </form><br><br>
 <form action="/add_dvd" method="post">
     <button name="add_dvd" type="submit">Add DVD</button>
@@ -12,7 +18,7 @@
 <form action="/add_mag" method="post">
     <button name="add_mag" type="submit">Add Magazine</button>
 </form><br><br>
-<br><br>
+<br>
 <form action="/library" method="post">
     <button name="library" type="submit">View Full Library</button>
 </form>
