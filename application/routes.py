@@ -6,10 +6,10 @@ from flask import url_for, render_template, redirect, request, flash
 from flask_login import current_user
 from flask_login import login_required, logout_user
 
-from application.forms import AddDvdForm, AddMagForm, DVDSearchForm
+from application.forms import AddDvdForm, AddMagForm, SearchForm
 from application.models import DVD, Magazine, db
 from application.tables import DVD_table, Mag_table
-
+from application.functions import search_func
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -17,56 +17,31 @@ def index():
         return redirect(url_for('library'))
     return render_template('index.html')
 
+
 @app.route('/library', methods=['GET', 'POST'])
 @login_required
 def library():
 
-    search = DVDSearchForm()
+    search = SearchForm()
     if request.method == 'POST':
-        if search.data['search'] != '':
-            if search.data['select'] == 'Owner':
-                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
-            if search.data['select'] == 'Title':
-                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
+        return search_func(search)
 
-            return dvd_library(dvd_items)
-
-    dvd_items = DVD.query.all()
+    dvd_items = DVD.query.order_by(DVD.title).all()
     dvd_table = DVD_table(dvd_items)
     dvd_table.border = True
-    mag_items = Magazine.query.all()
+    mag_items = Magazine.query.order_by(Magazine.title).all()
     mag_table = Mag_table(mag_items)
     mag_table.border = True
 
     return render_template('list.html', mag_table=mag_table, dvd_table=dvd_table, search=search)
 
 
-def dvd_library(dvd_items):
-
-    search = DVDSearchForm()
-    if not dvd_items:
-        dvd_table = DVD_table(dvd_items)
-    else:
-        dvd_table = DVD_table(dvd_items)
-        dvd_table.border = True
-
-    return render_template('DVD_list.html', table=dvd_table, search=search)
-
-
-@app.route('/mag_library', methods=['GET', 'POST'])
-@login_required
-def mag_library():
-
-    mag_items = Magazine.query.all()
-    mag_table = Mag_table(mag_items)
-    mag_table.border = True
-    return render_template('MAG_list.html', table=mag_table)
 
 @app.route('/add_dvd', methods=['GET', 'POST'])
 @login_required
 def add_dvd():
 
-    dvd_items = DVD.query.filter_by(owner_id = current_user.id).all()
+    dvd_items = DVD.query.filter_by(owner_id = current_user.id).order_by(DVD.title).all()
     dvd_table = DVD_table(dvd_items)
     dvd_table.border = True
 
@@ -93,7 +68,7 @@ def add_dvd():
 @login_required
 def add_mag():
 
-    mag_items = Magazine.query.filter_by(owner_id = current_user.id).all()
+    mag_items = Magazine.query.filter_by(owner_id = current_user.id).order_by(Magazine.title).all()
     mag_table = Mag_table(mag_items)
     mag_table.border = True
 
@@ -172,15 +147,9 @@ def return_mag(id):
 @login_required
 def lent_list():
 
-    search = DVDSearchForm()
+    search = SearchForm()
     if request.method == 'POST':
-        if search.data['search'] != '':
-            if search.data['select'] == 'Owner':
-                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
-            if search.data['select'] == 'Title':
-                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
-
-        return dvd_library(dvd_items)
+        return search_func(search)
 
 
     dvd_items = DVD.query.filter(DVD.owner_id == current_user.id, DVD.borrower_id != None).all()
@@ -196,15 +165,9 @@ def lent_list():
 @login_required
 def borrowed_list():
 
-    search = DVDSearchForm()
+    search = SearchForm()
     if request.method == 'POST':
-        if search.data['search'] != '':
-            if search.data['select'] == 'Owner':
-                dvd_items = DVD.query.filter(DVD.owner_name.contains(search.data['search'])).all()
-            if search.data['select'] == 'Title':
-                dvd_items = DVD.query.filter(DVD.title.contains(search.data['search'])).all()
-
-        return dvd_library(dvd_items)
+        return search_func(search)
 
     dvd_items = DVD.query.filter(DVD.borrower_id == current_user.id).all()
     dvd_table = DVD_table(dvd_items)

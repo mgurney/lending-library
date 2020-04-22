@@ -34,9 +34,12 @@ class AddMagForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=50, message='Only 50 characters allowed')])
     submit = SubmitField('Submit')
 
-class DVDSearchForm(FlaskForm):
+class SearchForm(FlaskForm):
     choices = [('Title', 'Title'),
                ('Owner', 'Owner')]
-    select = SelectField('Search for DVDs:', choices=choices)
-    search = StringField('')
+    dvd_select = SelectField('Search for Films:', choices=choices)
+    dvd_search = StringField('')
+    mag_select = SelectField('Search for Magazines:', choices=choices)
+    mag_search = StringField('')
     submit = SubmitField('Search')
+

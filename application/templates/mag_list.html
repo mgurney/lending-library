@@ -1,25 +1,28 @@
 {% extends "base_page.html" %}
 
 {% block content %}
-<h2>Magazines</h2>
 
 
 <div class="row">
     <div class="column left">
+        <h2>Magazines</h2>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         {{ table }}
     </div>
-    <div class="column right box">
-        <br><br>
-        <form action="/add_dvd" method="post">
-            <button name="add_dvd" type="submit">Add DVD</button>
-        </form><br>
-        <br>
-        <form action="/add_mag" method="post">
-            <button name="add_mag" type="submit">Add Magazine</button>
-        </form><br>
-        <form action="/logout" method="get">
-            <button name="logout" type="submit">Logout</button>
-        </form>
+    <div class="column right box_medium">
+        {% include "right_column.html" %}
+        {% block column %}
+        {% endblock %}
+
     </div>
 </div>
+
 {% endblock %}
