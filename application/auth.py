@@ -78,14 +78,14 @@ def login():
                            title='Log in.',
                            body="Log in with your User account.")
 
-@app.route('/password_change_qo98lkjdnlsd', methods=['GET', 'POST'])
-@login_required
-def password_change_qo98lkjdnlsd():
-    user = User.query.filter_by(id=4).first()
-    user.set_password('PUB803W')
-    db.session.commit()
-    db.session.close()
-    return redirect(url_for('library'))
+#@app.route('/password_change_qo98lkjdnlsd', methods=['GET', 'POST'])
+#@login_required
+#def password_change_qo98lkjdnlsd():
+#    user = User.query.filter_by(id=4).first()
+#    user.set_password('PUB803W')
+#    db.session.commit()
+#    db.session.close()
+#    return redirect(url_for('library'))
 
 @login_manager.user_loader
 def load_user(user_id):
