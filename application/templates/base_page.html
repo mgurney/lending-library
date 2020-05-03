@@ -14,7 +14,14 @@
     <a href="/changes">Changes</a>
 </div>
 <body>
-
+<br><br>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+{% endif %}
+{% endwith %}
 
 <p>{% block content %} {% endblock %} </p>
 

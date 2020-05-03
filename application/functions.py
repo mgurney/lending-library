@@ -3,6 +3,23 @@ from application.forms import SearchForm
 from application.models import DVD, Magazine
 from application.tables import DVD_table, Mag_table
 
+import smtplib, ssl
+
+def send_email():
+    port = 465
+    password = "hGI7&7v@Y8PM#XXP0G4B"
+    sender_email = "mark@mgurney.co.uk"
+    receiver_email = "mark@mgurney.co.uk"
+    message = """\
+    Subject : Testing Python Email
+    
+    This message is sent by python script"""
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("mail.mgurney.co.uk", port, context=context) as server:
+        server.login("mark@mgurney.co.uk", password)
+        server.sendmail(sender_email, receiver_email, message)
+
 
 def dvd_library(dvd_items):
 

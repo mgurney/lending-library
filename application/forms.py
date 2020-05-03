@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 class SignupForm(FlaskForm):
     """User Signup Form."""
     name = StringField('Name',validators=[DataRequired()])
-    email = StringField('Email',validators=[Length(min=6), Email(message='Enter a valid email.'), DataRequired()])
+    email = StringField('Email',validators=[Length(min=10), Email(message='Enter a valid email.'), DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(),Length(min=6, message='Select a stronger password.')])
     confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
     read_rules = BooleanField('Have you read the Rules', validators=[DataRequired()])
@@ -43,3 +43,9 @@ class SearchForm(FlaskForm):
     mag_search = StringField('')
     submit = SubmitField('Search')
 
+class ResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email.')])
+
+class PasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired(),Length(min=6, message='Select a stronger password.')])
+    confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
