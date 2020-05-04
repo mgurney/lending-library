@@ -22,16 +22,21 @@ def send_email(receiver_email, subject):
 
         password_reset_url = url_for(
             'reset_with_token',
-            token = password_reset_serializer.dumps(receiver_email, salt='password-reset-salt'),
+            token = password_reset_serializer.dumps(receiver_email, salt='93kjng02'),
             _external=True)
 
         html_text = render_template(
             'password_reset_email.html',
             password_reset_url=password_reset_url)
 
+        plain_text = """\
+        Hi,
+        This is the plain text version"""
 
-    part = MIMEText(html_text, "html")
-    message.attach(part)
+    part1 = MIMEText(plain_text, "plain_text")
+    part2 = MIMEText(html_text, "html")
+    message.attach(part1)
+    message.attach(part2)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)

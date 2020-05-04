@@ -202,15 +202,17 @@ def password_reset():
 @app.route('/reset_with_token/<token>', methods=['GET', 'POST'])
 def reset_with_token(token):
 
-
+    print("trying")
     try:
         password_reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-        email = password_reset_serializer.loads(token, salt='password-reset-salt', max_age=3600)
+        email = password_reset_serializer.loads(token, salt='93kjng02', max_age=3600)
+        print(email, password_reset_serializer.toString)
     except:
         print("failed something")
         flash('The password reset link is invalid or has expired.', 'error')
         return redirect(url_for('login'))
 
+    print("setup form")
     form = PasswordForm()
 
     if form.validate_on_submit():
@@ -229,6 +231,7 @@ def reset_with_token(token):
         flash('Your password has been updated!', 'success')
         return redirect(url_for('login'))
 
+    print("render template")
     return render_template('reset_password_with_token.html', form=form, token=token)
 
 
