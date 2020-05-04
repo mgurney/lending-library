@@ -21,8 +21,8 @@ def create_app():
     babel = Babel(app)
 
     with app.app_context():
-        from application import routes
-        from application import auth
+        from application import library
+        from application import users
         from application import models
 
     # Create tables for our models

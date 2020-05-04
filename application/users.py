@@ -1,14 +1,26 @@
+"""
+User handling :
+                    signup
+                    login
+                    password_reset
+                    reset_with_token
+                    load_user
+                    unauthorized
+                    logout
+"""
+
 from datetime import datetime
 
 from flask import current_app as app
 from flask import render_template, redirect
 from flask import request, flash, url_for
 from flask_login import current_user
-from flask_login import login_user, login_required
-
+from flask_login import login_user, login_required, logout_user
+from itsdangerous import URLSafeTimedSerializer
 from application import login_manager
-from application.forms import LoginForm, SignupForm
+from application.forms import LoginForm, SignupForm, ResetForm, PasswordForm
 from application.models import db, User
+from application.send_email import send_email
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -78,14 +90,52 @@ def login():
                            title='Log in.',
                            body="Log in with your User account.")
 
-#@app.route('/password_change_qo98lkjdnlsd', methods=['GET', 'POST'])
-#@login_required
-#def password_change_qo98lkjdnlsd():
-#    user = User.query.filter_by(id=4).first()
-#    user.set_password('PUB803W')
-#    db.session.commit()
-#    db.session.close()
-#    return redirect(url_for('library'))
+@app.route('/password_reset', methods=['GET', 'POST'])
+def password_reset():
+
+    form = ResetForm()
+    if form.validate_on_submit():
+        try:
+            user = User.query.filter_by(email=form.email.data).first_or_404()
+        except:
+            flash('Invalid email address!', 'error')
+            return render_template('password_reset_form.html', form=form)
+
+
+        send_email(user.email, "Lending Library - Password Reset")
+        flash('Please check your email for a password reset link.', 'success')
+
+        return redirect(url_for('login'))
+
+    return render_template('password_reset_form.html', form=form)
+
+@app.route('/reset_with_token/<token>', methods=['GET', 'POST'])
+def reset_with_token(token):
+    try:
+        password_reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = password_reset_serializer.loads(token, salt='93kjng02', max_age=3600)
+    except:
+        flash('The password reset link is invalid or has expired.', 'error')
+        return redirect(url_for('login'))
+
+    form = PasswordForm()
+
+    if form.validate_on_submit():
+        try:
+            user = User.query.filter_by(email=email).first_or_404()
+        except:
+            flash('Invalid email address!', 'error')
+            return redirect(url_for('login'))
+
+        password = form.password.data
+        user.set_password(password)
+        db.session.commit()
+        db.session.close()
+        flash('Your password has been updated!', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password_with_token.html', form=form, token=token)
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -99,4 +149,12 @@ def load_user(user_id):
 def unauthorized():
     """Redirect unauthorized users to Login page."""
     flash('You must be logged in to view that page.')
+    return redirect(url_for('login'))
+
+@app.route("/logout")
+@login_required
+def logout():
+    """User log-out logic."""
+    db.session.close()
+    logout_user()
     return redirect(url_for('login'))
