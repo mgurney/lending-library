@@ -14,14 +14,16 @@
                 changes
 """
 from datetime import datetime
+
 from flask import current_app as app
-from flask import url_for, render_template, redirect, request, flash
+from flask import url_for, render_template, redirect, request
 from flask_login import current_user
 from flask_login import login_required
+
 from application.forms import AddDvdForm, AddMagForm, SearchForm
+from application.functions import search_func
 from application.models import DVD, Magazine, db
 from application.tables import DVD_table, Mag_table
-from application.functions import search_func
 
 
 @app.route('/', methods=['GET', 'POST'])

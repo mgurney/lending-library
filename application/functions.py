@@ -1,7 +1,9 @@
 from flask import render_template
+
 from application.forms import SearchForm
 from application.models import DVD, Magazine
 from application.tables import DVD_table, Mag_table
+
 
 def dvd_library(dvd_items):
 

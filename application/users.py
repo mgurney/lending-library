@@ -17,6 +17,7 @@ from flask import request, flash, url_for
 from flask_login import current_user
 from flask_login import login_user, login_required, logout_user
 from itsdangerous import URLSafeTimedSerializer
+
 from application import login_manager
 from application.forms import LoginForm, SignupForm, ResetForm, PasswordForm
 from application.models import db, User
