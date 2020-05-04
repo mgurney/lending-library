@@ -3,8 +3,6 @@ from application.forms import SearchForm
 from application.models import DVD, Magazine
 from application.tables import DVD_table, Mag_table
 
-import smtplib, ssl
-
 def dvd_library(dvd_items):
 
 
