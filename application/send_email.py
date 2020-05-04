@@ -1,9 +1,11 @@
-from flask import current_app as app
-import smtplib, ssl
-from email.mime.text import MIMEText
+import smtplib
+import ssl
 from email.mime.multipart import MIMEMultipart
-from itsdangerous import URLSafeTimedSerializer
+from email.mime.text import MIMEText
+
+from flask import current_app as app
 from flask import url_for, render_template
+from itsdangerous import URLSafeTimedSerializer
 
 
 def send_email(receiver_email, subject):
