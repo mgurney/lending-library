@@ -6,46 +6,111 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 
 class SignupForm(FlaskForm):
     """User Signup Form."""
-    name = StringField('Name',validators=[DataRequired()])
-    email = StringField('Email',validators=[Length(min=10), Email(message='Enter a valid email.'), DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(),Length(min=6, message='Select a stronger password.')])
-    confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
-    read_rules = BooleanField('Have you read the Rules', validators=[DataRequired()])
-    submit = SubmitField('Register')
+
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField(
+        "Email",
+        validators=[
+            Length(min=10),
+            Email(message="Enter a valid email."),
+            DataRequired(),
+        ],
+    )
+    password = PasswordField(
+        "Password",
+        validators=[
+            DataRequired(),
+            Length(min=6, message="Select a stronger password."),
+        ],
+    )
+    confirm = PasswordField(
+        "Confirm Your Password",
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords must match."),
+        ],
+    )
+    read_rules = BooleanField("Have you read the Rules", validators=[DataRequired()])
+    submit = SubmitField("Register")
 
 
 class LoginForm(FlaskForm):
     """User Login Form."""
-    email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email.')])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Log In')
+
+    email = StringField(
+        "Email", validators=[DataRequired(), Email(message="Enter a valid email.")]
+    )
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Log In")
+
 
 class AddDvdForm(FlaskForm):
     """ Form to add DVD to the database ready for lending"""
-    title = StringField('Title', validators=[DataRequired(), Length(max=50, message='Only 50 characters allowed')])
-    format_dvd = BooleanField('DVD?', validators=[Optional()])
-    format_bluray = BooleanField('Blu-Ray?', validators=[Optional()])
-    format_4k = BooleanField('4K?', validators=[Optional()])
-    rating = SelectField('Rating', choices=[('U', 'U'), ('PG','PG'), ('12', '12'), ('12A', '12A'), ('15', '15'), ('18', '18')])
-    submit = SubmitField('Submit')
+
+    title = StringField(
+        "Title",
+        validators=[
+            DataRequired(),
+            Length(max=50, message="Only 50 characters allowed"),
+        ],
+    )
+    format_dvd = BooleanField("DVD?", validators=[Optional()])
+    format_bluray = BooleanField("Blu-Ray?", validators=[Optional()])
+    format_4k = BooleanField("4K?", validators=[Optional()])
+    rating = SelectField(
+        "Rating",
+        choices=[
+            ("U", "U"),
+            ("PG", "PG"),
+            ("12", "12"),
+            ("12A", "12A"),
+            ("15", "15"),
+            ("18", "18"),
+        ],
+    )
+    submit = SubmitField("Submit")
+
 
 class AddMagForm(FlaskForm):
     """ Form to add Magazine to the database ready for lending"""
-    title = StringField('Title', validators=[DataRequired(), Length(max=50, message='Only 50 characters allowed')])
-    submit = SubmitField('Submit')
+
+    title = StringField(
+        "Title",
+        validators=[
+            DataRequired(),
+            Length(max=50, message="Only 50 characters allowed"),
+        ],
+    )
+    submit = SubmitField("Submit")
+
 
 class SearchForm(FlaskForm):
-    choices = [('Title', 'Title'),
-               ('Owner', 'Owner')]
-    dvd_select = SelectField('Search for Films:', choices=choices)
-    dvd_search = StringField('')
-    mag_select = SelectField('Search for Magazines:', choices=choices)
-    mag_search = StringField('')
-    submit = SubmitField('Search')
+    choices = [("Title", "Title"), ("Owner", "Owner")]
+    dvd_select = SelectField("Search for Films:", choices=choices)
+    dvd_search = StringField("")
+    mag_select = SelectField("Search for Magazines:", choices=choices)
+    mag_search = StringField("")
+    submit = SubmitField("Search")
+
 
 class ResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email.')])
+    email = StringField(
+        "Email", validators=[DataRequired(), Email(message="Enter a valid email.")]
+    )
+
 
 class PasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired(),Length(min=6, message='Select a stronger password.')])
-    confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
+    password = PasswordField(
+        "Password",
+        validators=[
+            DataRequired(),
+            Length(min=6, message="Select a stronger password."),
+        ],
+    )
+    confirm = PasswordField(
+        "Confirm Your Password",
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords must match."),
+        ],
+    )

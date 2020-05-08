@@ -11,10 +11,11 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 login_manager = LoginManager()
 
+
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
-    app.config.from_object('config.Config')
-    app.static_folder = 'static'
+    app.config.from_object("config.Config")
+    app.static_folder = "static"
     db.init_app(app)
     login_manager.init_app(app)
     migrate = Migrate(app, db)
@@ -25,7 +26,7 @@ def create_app():
         from application import users
         from application import models
 
-    # Create tables for our models
+        # Create tables for our models
         db.create_all()
 
         return app
