@@ -1,1 +1,5 @@
 .idea/
+.env
+test.db
+.coverage
+Tests/Unit/tmp/
