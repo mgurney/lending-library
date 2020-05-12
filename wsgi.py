@@ -12,7 +12,6 @@ ENV = environ.get('ENV')
 
 if ENV == 'development':
     app = create_app(DevConfig)
-
 elif ENV == 'testing':
     app = create_app(TestConfig)
 else:

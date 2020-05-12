@@ -32,6 +32,7 @@ class BasicTests(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+        self.app_context.pop()
 
     ###############
     #### tests ####
@@ -45,8 +46,12 @@ class BasicTests(unittest.TestCase):
         response = self.client.get('/signup')
         self.assertEqual(response.status_code, 200)
 
-        response = self.register('Pat Kennedy', 'patkennedy79@gmail.com', 'FlaskIsAwesome', 'FlaskIsAwesome', False)
+        response = self.client.post(
+            '/signup',
+            data=dict(name='Mark', email='mark@mgurney.co.uk', password='FlaskisAwesome', confirm='FlaskisAwesome',
+                      rules='True'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        print(response.data)
 
     def test_login_page(self):
         response = self.client.get('/login')
@@ -55,25 +60,21 @@ class BasicTests(unittest.TestCase):
         response = self.login('patkennedy79@gmail.com', 'FlaskIsAwesome')
         self.assertEqual(response.status_code, 200)
 
-    def test_login_form(self):
+    def test_zlogin_form(self):
         u = User(name='Mark', email='mark@mgurney.co.uk', password='imogen', rules_read=True)
         db.session.add(u)
         db.session.commit()
         response = self.login('mark@mgurney.co.uk', 'imogen')
-        print(response.status_code)
         self.assertEqual(response.status_code, 200)
         self.assertNotIn(b'Invalid username/password combination', response.data)
 
-    # ###########################
-    #
     # Helper functions for tests
-    #
-    # ############################
+
     def register(self, name, email, password, confirm, rules):
         return self.client.post(
             '/signup',
             data=dict(name=name, email=email, password=password, confirm=confirm, rules=rules),
-            follow_redirects=False)
+            follow_redirects=True)
 
     def login(self, email, password):
         return self.client.post('/login', data=dict(email=email, password=password), follow_redirects=True)

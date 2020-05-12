@@ -10,6 +10,7 @@ User handling :
 """
 
 from datetime import datetime
+from os import environ
 
 from flask import current_app as app
 from flask import render_template, redirect
@@ -26,9 +27,14 @@ from application.send_email import send_email
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    print('in sign up')
     signup_form = SignupForm()
     if request.method == "POST":
+        print('request method = POST')
+        print(environ.get('WTF_CSRF_ENABLED'))
+        print(signup_form.validate_on_submit())
         if signup_form.validate_on_submit():
+            print('form validated on submit')
             name = signup_form.name.data
             email = signup_form.email.data
             password = signup_form.password.data
@@ -38,14 +44,17 @@ def signup():
                 email=email
             ).first()  # Check if user exists
             if existing_user is None:
+                print('no existing user')
                 user = User(
                     name=name, email=email, rules_read=rules, created_on=now_date
                 )
                 user.set_password(password)
+                print('updating database')
                 db.session.add(user)
                 db.session.commit()  # Create new user
                 db.session.close()
                 login_user(user)  # Log in as newly created user
+                flash("Well done")
                 return redirect(url_for("index"))
             flash("A user already exists with that email address.")
             return redirect(url_for("signup"))
@@ -71,6 +80,7 @@ def login():
 
     login_form = LoginForm()
     if request.method == "POST":
+        print('Validate on Submit : ', login_form.validate_on_submit())
         if login_form.validate_on_submit():
             email = login_form.email.data
             password = login_form.password.data
