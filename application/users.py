@@ -10,7 +10,6 @@ User handling :
 """
 
 from datetime import datetime
-from os import environ
 
 from flask import current_app as app
 from flask import render_template, redirect
@@ -27,14 +26,11 @@ from application.send_email import send_email
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    print('in sign up')
     signup_form = SignupForm()
     if request.method == "POST":
-        print('request method = POST')
-        print(environ.get('WTF_CSRF_ENABLED'))
-        print(signup_form.validate_on_submit())
+        print('sign up form - posted')
         if signup_form.validate_on_submit():
-            print('form validated on submit')
+            print('signup form validated')
             name = signup_form.name.data
             email = signup_form.email.data
             password = signup_form.password.data
@@ -43,8 +39,8 @@ def signup():
             existing_user = User.query.filter_by(
                 email=email
             ).first()  # Check if user exists
+            print('existing user : ', existing_user)
             if existing_user is None:
-                print('no existing user')
                 user = User(
                     name=name, email=email, rules_read=rules, created_on=now_date
                 )
@@ -82,17 +78,18 @@ def login():
     if request.method == "POST":
         print('Validate on Submit : ', login_form.validate_on_submit())
         if login_form.validate_on_submit():
+            print('login form validated')
             email = login_form.email.data
             password = login_form.password.data
             user = User.query.filter_by(email=email).first()  # Validate Login Attempt
-
             if user and user.check_password(password=password):
                 login_user(user)
                 user.last_login = datetime.now()
                 db.session.commit()
                 db.session.close()
-                next_page = request.args.get("next")
-                return redirect(next_page or url_for("index"))
+                #                next_page = request.args.get("next")
+                flash('Welcome Back ', user.name)
+                return redirect(url_for("index"))
 
         flash("Invalid username/password combination")
         return redirect(url_for("login"))

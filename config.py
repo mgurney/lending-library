@@ -10,7 +10,7 @@ class Config:
     SECRET_KEY = environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = environ.get('SQLALCHEMY_TRACK_MODIFICATIONS') or 'False'
     FLASK_ENV = environ.get('FLASK_ENV')
-    WTF_CSRF_ENABLED = True
+#    WTF_CSRF_ENABLED = True
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')

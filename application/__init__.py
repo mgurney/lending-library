@@ -12,6 +12,8 @@ migrate = Migrate()
 babel = Babel()
 
 
+# csrf = CSRFProtect()
+
 def create_app(config):
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object(config)
@@ -20,6 +22,7 @@ def create_app(config):
     login_manager.init_app(app)
     migrate.init_app(app, db)
     babel.init_app(app)
+    #    csrf.init_app(app)
 
     with app.app_context():
         from application import library
