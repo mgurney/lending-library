@@ -70,7 +70,7 @@ class BasicTests(unittest.TestCase):
         self.assertIn(b'Redirecting...', response.data)
         self.assertIn(b'/login', response.data)
 
-    def test_dvd_lib(self):
+    def test_dvd_lib_no_items(self):
         self.create_test_user()
         self.login_test_user()
         response = self.app.get('/library')
@@ -78,7 +78,15 @@ class BasicTests(unittest.TestCase):
         response = self.app.post('/library', data=dict(dvd_select='Title', dvd_search='Lion'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'No Items', response.data)
-        print(response.status_code, response.data)
+
+    def test_dvd_add(self):
+        self.create_test_user()
+        self.login_test_user()
+        response = self.app.post('/add_dvd', data=dict(title='The Lion King', rating='12'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        response = self.app.post('/library', data=dict(dvd_select='Title', dvd_search='Lion'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'The Lion King', response.data)
 
     # ##########################
     # Helper functions for tests
