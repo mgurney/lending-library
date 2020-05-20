@@ -24,8 +24,6 @@ class User(UserMixin, db.Model):
         self.password = generate_password_hash(password, method="sha256")
 
     def check_password(self, password):
-        print(password, self.password)
-        print(check_password_hash(self.password, password))
         return check_password_hash(self.password, password)
 
     def __repr__(self):

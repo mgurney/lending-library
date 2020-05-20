@@ -123,7 +123,6 @@ def borrow_dvd(id):
         dvd_items.borrower_id = current_user.id
         dvd_items.borrower_name = current_user.name
         db.session.commit()
-    #        db.session.close()
 
     return redirect(url_for("library"))
 

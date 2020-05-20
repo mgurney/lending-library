@@ -28,29 +28,20 @@ from application.send_email import send_email
 def signup():
     signup_form = SignupForm()
     if request.method == "POST":
-#        print('sign up form - posted')
         if signup_form.validate_on_submit():
-            #            print('signup form validated')
             name = signup_form.name.data
             email = signup_form.email.data
             password = signup_form.password.data
             now_date = datetime.now()
             rules = signup_form.read_rules.data
-            existing_user = User.query.filter_by(
-                email=email
-            ).first()  # Check if user exists
-            #            print('existing user : ', existing_user)
+            existing_user = User.query.filter_by(email=email).first()  # Check if user exists
             if existing_user is None:
-                user = User(
-                    name=name, email=email, rules_read=rules, created_on=now_date
-                )
+                user = User(name=name, email=email, rules_read=rules, created_on=now_date)
                 user.set_password(password)
-                #                print('updating database')
                 db.session.add(user)
                 db.session.commit()  # Create new user
-                #                db.session.close()
                 login_user(user)  # Log in as newly created user
-                flash("Well done")
+                flash("Congratulations on signing up to the Ben Rhydding DVD Lending Library")
                 return redirect(url_for("index"))
             flash("A user already exists with that email address.")
             return redirect(url_for("signup"))
@@ -84,7 +75,6 @@ def login():
                 login_user(user)
                 user.last_login = datetime.now()
                 db.session.commit()
-                #                db.session.close()
                 flash('Welcome Back ', user.name)
                 return redirect(url_for("index"))
 
