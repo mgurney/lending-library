@@ -28,9 +28,9 @@ from application.send_email import send_email
 def signup():
     signup_form = SignupForm()
     if request.method == "POST":
-        print('sign up form - posted')
+#        print('sign up form - posted')
         if signup_form.validate_on_submit():
-            print('signup form validated')
+            #            print('signup form validated')
             name = signup_form.name.data
             email = signup_form.email.data
             password = signup_form.password.data
@@ -39,16 +39,16 @@ def signup():
             existing_user = User.query.filter_by(
                 email=email
             ).first()  # Check if user exists
-            print('existing user : ', existing_user)
+            #            print('existing user : ', existing_user)
             if existing_user is None:
                 user = User(
                     name=name, email=email, rules_read=rules, created_on=now_date
                 )
                 user.set_password(password)
-                print('updating database')
+                #                print('updating database')
                 db.session.add(user)
                 db.session.commit()  # Create new user
-                db.session.close()
+                #                db.session.close()
                 login_user(user)  # Log in as newly created user
                 flash("Well done")
                 return redirect(url_for("index"))
@@ -76,9 +76,7 @@ def login():
 
     login_form = LoginForm()
     if request.method == "POST":
-        print('Validate on Submit : ', login_form.validate_on_submit())
         if login_form.validate_on_submit():
-            print('login form validated')
             email = login_form.email.data
             password = login_form.password.data
             user = User.query.filter_by(email=email).first()  # Validate Login Attempt
@@ -86,8 +84,7 @@ def login():
                 login_user(user)
                 user.last_login = datetime.now()
                 db.session.commit()
-                db.session.close()
-                #                next_page = request.args.get("next")
+                #                db.session.close()
                 flash('Welcome Back ', user.name)
                 return redirect(url_for("index"))
 
