@@ -64,21 +64,19 @@ def add_dvd():
     form = AddDvdForm()
 
     if request.method == "POST":
-        if form.submit.data:
-            if form.validate_on_submit():
-                dvd = DVD(
-                    title=form.title.data,
-                    rating=form.rating.data,
-                    format_dvd=form.format_dvd.data,
-                    format_bluray=form.format_bluray.data,
-                    format_4k=form.format_4k.data,
-                    owner_id=current_user.id,
-                    owner_name=current_user.name,
-                )
-                db.session.add(dvd)
-                db.session.commit()
-                db.session.close()
-                return redirect(url_for("add_dvd"))
+        if form.validate_on_submit():
+            dvd = DVD(
+                title=form.title.data,
+                rating=form.rating.data,
+                format_dvd=form.format_dvd.data,
+                format_bluray=form.format_bluray.data,
+                format_4k=form.format_4k.data,
+                owner_id=current_user.id,
+                owner_name=current_user.name,
+            )
+            db.session.add(dvd)
+            db.session.commit()
+            return redirect(url_for("add_dvd"))
 
     return render_template("add_dvd.html", form=form, table=dvd_table)
 
@@ -107,7 +105,7 @@ def add_mag():
                 )
                 db.session.add(mag)
                 db.session.commit()
-                db.session.close()
+                #                db.session.close()
                 return redirect(url_for("add_mag"))
 
     return render_template("add_mag.html", form=form, table=mag_table)
@@ -123,7 +121,6 @@ def borrow_dvd(id):
         dvd_items.borrower_id = current_user.id
         dvd_items.borrower_name = current_user.name
         db.session.commit()
-        db.session.close()
 
     return redirect(url_for("library"))
 
@@ -138,7 +135,7 @@ def borrow_mag(id):
         mag_items.borrower_id = current_user.id
         mag_items.borrower_name = current_user.name
         db.session.commit()
-        db.session.close()
+    #        db.session.close()
 
     return redirect(url_for("library"))
 
@@ -153,7 +150,7 @@ def return_dvd(id):
         dvd_items.borrower_id = None
         dvd_items.borrower_name = ""
         db.session.commit()
-        db.session.close()
+    #        db.session.close()
 
     return redirect(url_for("library"))
 
@@ -168,7 +165,7 @@ def return_mag(id):
         mag_items.borrower_id = None
         mag_items.borrower_name = ""
         db.session.commit()
-        db.session.close()
+    #        db.session.close()
 
     return redirect(url_for("library"))
 
