@@ -13,7 +13,7 @@ Flask-WTF-Decorators==0.1.2
 gitdb==4.0.5
 GitPython==3.1.2
 itsdangerous==1.1.0
-Jinja2==2.10.3
+Jinja2==2.11.3
 macholib==1.11
 MarkupSafe==1.1.1
 pathspec==0.8.0
